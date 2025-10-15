@@ -39,8 +39,8 @@ public class Ticket {
     @ManyToMany
     private List<Categoria> categorie;
 
-    @OneToMany
-    private List<Nota> nota;
+    @OneToMany(mappedBy = "ticket")
+    private List<Nota> note;
 
     public Integer getId() {
         return id;
@@ -91,11 +91,11 @@ public class Ticket {
     }
 
     public List<Nota> getNota() {
-        return nota;
+        return note;
     }
 
-    public void setNota(List<Nota> nota) {
-        this.nota = nota;
+    public void setNota(List<Nota> note) {
+        this.note = note;
     }
 
     
