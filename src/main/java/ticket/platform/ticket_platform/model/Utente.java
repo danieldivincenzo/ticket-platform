@@ -10,10 +10,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
+@Table(name="utenti")
 public class Utente {
 
     @Id
@@ -21,10 +24,13 @@ public class Utente {
     private Integer id;
 
     @NotNull
+    @NotBlank
+    @Email
     @Column(unique=true, nullable=false)
     private String email;
 
     @NotNull
+    @NotBlank
     private String password;
 
     @NotNull

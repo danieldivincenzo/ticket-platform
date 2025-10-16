@@ -7,10 +7,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
+@Table(name="note")
 public class Nota {
 
     @Id
@@ -21,6 +23,7 @@ public class Nota {
     @NotNull
     private String testo;
 
+    @NotNull
     private LocalDateTime dataCreazione;
 
     @ManyToOne

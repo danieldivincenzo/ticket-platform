@@ -11,11 +11,13 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
+@Table(name="tickets")
 public class Ticket {
 
     @Id
@@ -27,6 +29,8 @@ public class Ticket {
     @Size(max=150)
     private String titolo;
 
+    @NotNull
+    @NotBlank
     private String stato;
 
     @NotNull
