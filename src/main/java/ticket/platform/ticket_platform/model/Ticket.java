@@ -29,11 +29,8 @@ public class Ticket {
     @Size(max=150)
     private String titolo;
 
-    @NotNull
-    @NotBlank
     private String stato;
 
-    @NotNull
     private LocalDateTime dataCreazione;
 
     @ManyToOne
