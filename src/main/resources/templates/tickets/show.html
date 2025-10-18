@@ -43,11 +43,50 @@
 
             <div>
                 <h3>Note aggiuntive</h3>
-                <div class="alert alert-secondary">Nessuna nota presente</div>
-            </div>
+                <div th:if="*{getNote.size() > 0}">
+                    <div th:each="nota : *{note}" class="card mb-3">
+                        <div class="card-body">
+                            <p class="card-text" th:text="${nota.testo}"></p>
+                        </div>
+                        <div class="card-footer text-muted">
+                            Aggiunta da <strong th:text="${nota.autore.nomeCompleto}"></strong> il <span
+                                th:text="${#temporals.format(nota.dataCreazione, 'dd/MM/yyyy HH:mm')}"></span>
+                        </div>
+                    </div>
+                </div>
 
-            <a th:href="@{/admin/tickets}" class="btn btn-primary">Torna alla lista</a>
+                <div th:unless="*{getNote.size() > 0}" class="alert alert-secondary mt-3">Nessuna nota presente</div>
+
+                <form th:action="@{/admin/note/store/{ticketId}(ticketId=*{id})}" method="POST">
+                    <div class="mb-3">
+                        <textarea name="testo" id="testoNota" class="form-control" rows="3"
+                            placeholder="Scrivi la tua nota..."></textarea>
+                    </div>
+                    <div class=" mb-3 d-flex justify-content-between">
+                        <button type="submit" class="btn btn-success">
+                            Aggiungi nota
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-plus-lg" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
+                            </svg>
+                        </button>
+                </form>
+
+
+                <a th:href="@{/admin/tickets}" class="btn btn-primary">
+                    Torna alla lista
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-box-arrow-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0z" />
+                        <path fill-rule="evenodd"
+                            d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z" />
+                    </svg>
+                </a>
+            </div>
         </div>
+    </div>
     </div>
 
     <script th:src="@{/webjars/bootstrap/5.1.3/js/bootstrap.bundle.min.js}"></script>

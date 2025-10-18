@@ -91,7 +91,7 @@ public class Ticket {
         this.categorie = categorie;
     }
 
-    public List<Nota> getNota() {
+    public List<Nota> getNote() {
         return note;
     }
 
