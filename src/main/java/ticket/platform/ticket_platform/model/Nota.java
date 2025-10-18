@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -27,9 +28,11 @@ public class Nota {
     private LocalDateTime dataCreazione;
 
     @ManyToOne
+    @JoinColumn(name="autore_id", nullable=false)
     private Utente autore;
 
     @ManyToOne
+    @JoinColumn(name="ticket_id", nullable=false)
     private Ticket ticket;
 
     public Integer getId() {

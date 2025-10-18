@@ -16,6 +16,13 @@
 
     <div class="container">
         <div class="content">
+            <th:block th:if="${successMessage != null}">
+                <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                    <span th:text="${successMessage}"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </th:block>
+
             <h1 class="my-3">Elenco tickets</h1>
 
             <a th:href="@{/admin/tickets/create}" class="btn btn-success mb-3">Crea Nuovo Ticket</a>
@@ -37,7 +44,8 @@
                         <td th:text="${ticket.operatore.nomeCompleto}"></td>
                         <td th:text="${ticket.stato}"></td>
                         <td>
-                            <a class="btn btn-primary btn-sm">Dettagli</a>
+                            <a th:href="@{/admin/tickets/show/{id}(id=${ticket.id})}"
+                                class="btn btn-primary btn-sm">Dettagli</a>
                         </td>
                     </tr>
                 </tbody>
