@@ -18,7 +18,8 @@ public class SecurityConfiguration {
                 .requestMatchers("/operatore/**").hasAuthority("OPERATORE")
                 .requestMatchers("/**").permitAll()
                 .and().formLogin()
-                .and().logout();
+                .and().logout()
+                .and().csrf().disable();
         return http.build();
     }
 

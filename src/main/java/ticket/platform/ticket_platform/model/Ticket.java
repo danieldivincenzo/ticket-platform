@@ -24,8 +24,8 @@ public class Ticket {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
-    @NotNull
-    @NotBlank
+    @NotNull(message="Il titolo non può essere nullo")
+    @NotBlank(message="Il titolo non può essere vuoto")
     @Size(max=150)
     private String titolo;
 

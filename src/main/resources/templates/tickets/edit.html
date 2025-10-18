@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifica ticket</title>
+
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.1.3/css/bootstrap.min.css}" />
+</head>
+
+<body>
+    <header>
+        <nav th:replace="~{navbar :: navbar('Tickets')}"></nav>
+    </header>
+
+    <div class="container">
+        <div class="content">
+            <h1 class="my-3">Modifica ticket</h1>
+
+            <form th:action="@{/admin/tickets/edit/{id}(id=${ticket.id})}" method="POST" th:object="${ticket}">
+                <div class="mb-3">
+                    <label for="titolo" class="form-label">Titolo</label>
+                    <input type="text" class="form-control" id="titolo" th:field="*{titolo}" th:errorclass="is-invalid">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('titolo')}">
+                        <p th:each="err : ${#fields.errors('titolo')}" th:text="${err}"></p>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="operatore" class="form-label">Assegna a Operatore</label>
+                    <select class="form-select" id="operatore" th:field="*{operatore}" th:errorclass="is-invalid">
+                        <option value="">Seleziona un operatore</option>
+                        <option th:each="operatore : ${listaOperatori}" th:value="${operatore.id}"
+                            th:text="${operatore.nomeCompleto}">
+                        </option>
+                    </select>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('operatore')}">
+                        <p th:each="err : ${#fields.errors('operatore')}" th:text="${err}"></p>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="stato" class="form-label">Stato</label>
+                    <select class="form-select" id="stato" th:field="*{stato}">
+                        <option value="Da fare">Da Fare</option>
+                        <option value="In corso">In Corso</option>
+                        <option value="Completato">Completato</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    Salva modifiche
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-check-lg" viewBox="0 0 16 16">
+                        <path
+                            d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z" />
+                    </svg>
+                </button>
+                <a th:href="@{/admin/tickets}" class="btn btn-secondary">
+                    Annulla
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-x-lg" viewBox="0 0 16 16">
+                        <path
+                            d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
+                    </svg>
+                </a>
+            </form>
+
+
+        </div>
+    </div>
+
+    <script th:src="@{/webjars/bootstrap/5.1.3/js/bootstrap.bundle.min.js}"></script>
+</body>
+
+</html>

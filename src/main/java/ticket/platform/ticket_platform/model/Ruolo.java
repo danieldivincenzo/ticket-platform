@@ -18,7 +18,7 @@ public class Ruolo {
     @NotNull
     private String nome;
 
-    @ManyToMany(mappedBy = "ruoli")
+    @ManyToMany
     private List<Utente> utenti;
 
     public Integer getId() {

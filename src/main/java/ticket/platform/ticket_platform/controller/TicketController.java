@@ -27,6 +27,8 @@ import ticket.platform.ticket_platform.repository.UtenteRepository;
 
 
 
+
+
 @Controller
 @RequestMapping("/admin/tickets")
 public class TicketController {
@@ -75,6 +77,7 @@ public class TicketController {
     @GetMapping("/show/{id}")
     public String show(@PathVariable("id") Integer id, Model model) {
         Optional<Ticket> optionalTicket = ticketRepository.findById(id);
+
         if(optionalTicket.isPresent()){
             Ticket ticket = optionalTicket.get();
 
@@ -84,6 +87,48 @@ public class TicketController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Ticket con id " + id + " non trovato.");
         }
     }
+
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable("id") Integer id, Model model) {
+        Optional<Ticket> optionalTicket = ticketRepository.findById(id);
+        
+        if(optionalTicket.isPresent()){
+            Ticket ticket = optionalTicket.get();
+            model.addAttribute("ticket", ticket);
+
+            List<Utente> utenti = utenteRepository.findAll();
+            List<Utente> operatoriDisponibili = utenti.stream().filter(utente -> utente.getRuoli().stream().anyMatch(ruolo -> ruolo.getNome().equals("OPERATORE")) && utente.isDisponibile()).collect(Collectors.toList());
+            model.addAttribute("listaOperatori", operatoriDisponibili);
+
+            return "tickets/edit";
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Ticket con id " + id + " non trovato.");
+        }
+    }
+
+    @PostMapping("/edit/{id}")
+    public String update(@PathVariable("id") Integer id, @Valid @ModelAttribute("ticket") Ticket formTicket, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+        if(bindingResult.hasErrors()){
+            List<Utente> utenti = utenteRepository.findAll();
+            List<Utente> operatoriDisponibili = utenti.stream().filter(utente -> utente.getRuoli().stream().anyMatch(ruolo -> ruolo.getNome().equals("OPERATORE")) && utente.isDisponibile()).collect(Collectors.toList());
+            model.addAttribute("listaOperatori", operatoriDisponibili);
+
+            return "tickets/edit";
+            
+        } else {
+            Ticket ticketOriginale = ticketRepository.findById(id).get();
+
+            formTicket.setId(ticketOriginale.getId());
+            formTicket.setDataCreazione(ticketOriginale.getDataCreazione());
+
+            ticketRepository.save(formTicket);
+            redirectAttributes.addFlashAttribute("successMessage", "Ticket aggiornato con successo!");
+            return "redirect:/admin/tickets";
+        }
+       
+    }
+    
+    
     
     
     
