@@ -23,7 +23,7 @@ public class Categoria {
     @NotBlank
     private String nome;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "categorie")
     private List<Ticket> tickets;
 
     public Integer getId() {

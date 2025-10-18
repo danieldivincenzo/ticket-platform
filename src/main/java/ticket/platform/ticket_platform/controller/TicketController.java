@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -23,6 +24,7 @@ import ticket.platform.ticket_platform.model.Ticket;
 import ticket.platform.ticket_platform.model.Utente;
 import ticket.platform.ticket_platform.repository.TicketRepository;
 import ticket.platform.ticket_platform.repository.UtenteRepository;
+
 
 
 
@@ -40,9 +42,15 @@ public class TicketController {
     private UtenteRepository utenteRepository;
 
     @GetMapping
-    public String index(Model model) {
-        List<Ticket> listaTickets = ticketRepository.findAll();
+    public String index(@RequestParam(name = "keyword", required = false) String keyword, Model model) {
+        List<Ticket> listaTickets;
+        if(keyword != null && !keyword.isBlank()){
+            listaTickets = ticketRepository.findByTitoloContainingIgnoreCase(keyword);
+        } else {
+            listaTickets = ticketRepository.findAll();
+        }
         model.addAttribute("listaTickets", listaTickets);
+        model.addAttribute("keyword", keyword);
         return "tickets/index";
     }
 
@@ -125,8 +133,16 @@ public class TicketController {
             redirectAttributes.addFlashAttribute("successMessage", "Ticket aggiornato con successo!");
             return "redirect:/admin/tickets";
         }
-       
     }
+
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
+        ticketRepository.deleteById(id);
+        redirectAttributes.addFlashAttribute("successMessage", "Ticket eliminato con successo!");
+        
+        return "redirect:/admin/tickets";
+    }
+    
     
     
     
