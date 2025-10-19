@@ -13,12 +13,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ticket.platform.ticket_platform.model.Nota;
 import ticket.platform.ticket_platform.model.Ticket;
 import ticket.platform.ticket_platform.model.Utente;
 import ticket.platform.ticket_platform.repository.TicketRepository;
 import ticket.platform.ticket_platform.repository.UtenteRepository;
+
+
 
 
 
@@ -72,6 +75,41 @@ public class OperatoreController {
         ticketRepository.save(ticket);
         return "redirect:/operatore/tickets/show/" + id;
     }
+
+    @GetMapping("/profilo")
+    public String showProfilo(Authentication authentication, Model model) {
+        String userEmail = authentication.getName();
+        Utente operatore = utenteRepository.findByEmail(userEmail).get();
+        model.addAttribute("operatore", operatore);
+
+        boolean haTicketAttivi = operatore.getTicketsAssegnati().stream().anyMatch(ticket -> ticket.getStato().equals("Da fare") || ticket.getStato().equals("In corso"));
+        model.addAttribute("haTicketAttivi", haTicketAttivi);
+
+        return "operatore/profilo";
+    }
+
+    @PostMapping("/profilo")
+    public String updateProfilo(@ModelAttribute("operatore") Utente formOperatore, Authentication authentication, RedirectAttributes redirectAttributes) {
+        String userEmail = authentication.getName();
+        Utente operatoreOriginale = utenteRepository.findByEmail(userEmail).get();
+
+        if(!formOperatore.isDisponibile()){
+            boolean haTicketAttivi = operatoreOriginale.getTicketsAssegnati().stream().anyMatch(ticket -> ticket.getStato().equals("Da fare") || ticket.getStato().equals("In corso"));
+
+            if (haTicketAttivi){
+                redirectAttributes.addFlashAttribute("errorMessage", "Non puoi impostare lo stato 'Non disponibile' mentre hai ticket aperti.");
+                return "redirect:/operatore/tickets/profilo";
+            }
+        }
+        
+        operatoreOriginale.setDisponibile(formOperatore.isDisponibile());
+        utenteRepository.save(operatoreOriginale);
+
+        redirectAttributes.addFlashAttribute("successMessage", "Profilo aggiornato con successo.");
+        return "redirect:/operatore/tickets/profilo";
+    }
+    
+    
     
     
     

@@ -47,7 +47,7 @@
 
             <div>
                 <h3>Note</h3>
-                <div th:if="*{getNote.size() > 0}">
+                <div th:if="*{note.size > 0}">
                     <div th:each="nota : *{note}" class="card mb-3">
                         <div class="card-body">
                             <p class="card-text" th:text="${nota.testo}"></p>

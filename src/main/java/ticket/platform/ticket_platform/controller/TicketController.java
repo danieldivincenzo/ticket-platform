@@ -25,12 +25,6 @@ import ticket.platform.ticket_platform.model.Utente;
 import ticket.platform.ticket_platform.repository.TicketRepository;
 import ticket.platform.ticket_platform.repository.UtenteRepository;
 
-
-
-
-
-
-
 @Controller
 @RequestMapping("/admin/tickets")
 public class TicketController {

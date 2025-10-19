@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profilo operatore</title>
+
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.1.3/css/bootstrap.min.css}" />
+</head>
+
+<body>
+    <header>
+        <nav th:replace="~{navbar :: navbar('Profilo')}"></nav>
+    </header>
+
+    <div class="container">
+        <div class="content">
+            <h1 class="my-3">Il mio profilo</h1>
+            <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+            <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+            <form th:action="@{/operatore/tickets/profilo}" th:object="${operatore}" method="POST">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="*{nomeCompleto}"></h5>
+                        <p class="card-text" th:text="*{email}"></p>
+
+                        <div class="form-check form-switch">
+                            <input type="checkbox" class="form-check-input" id="disponibile" th:field="*{disponibile}"
+                                th:disabled="${haTicketAttivi and operatore.disponibile}">
+                            <label for="disponibile" class="form-check-label">Disponibile</label>
+                        </div>
+                        <small th:if="${haTicketAttivi and operatore.disponibile}" class="form-text text-muted">
+                            Non puoi renderti 'Non disponibile' finché hai ticket attivi.
+                        </small>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">Salva modifiche</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <script th:src="@{/webjars/bootstrap/5.1.3/js/bootstrap.bundle.min.js}"></script>
+</body>
+
+</html>

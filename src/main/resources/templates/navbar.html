@@ -24,6 +24,12 @@
                             I miei Ticket
                         </a>
                     </li>
+                    <li class="nav-item" sec:authorize="hasAuthority('OPERATORE')">
+                        <a class="nav-link" th:href="@{/operatore/tickets/profilo}"
+                            th:classAppend="${current == 'Profilo'} ? 'active'">
+                            Profilo
+                        </a>
+                    </li>
                 </ul>
             </div>
 
