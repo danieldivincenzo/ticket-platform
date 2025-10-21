@@ -49,7 +49,6 @@ public class Utente {
     private List<Ticket> ticketsAssegnati;
 
     @OneToMany(mappedBy = "autore")
-    @JsonBackReference
     private List<Nota> noteCreate;
 
     public List<Ticket> getTicketsAssegnati() {

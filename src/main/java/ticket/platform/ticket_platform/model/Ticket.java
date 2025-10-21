@@ -37,13 +37,13 @@ public class Ticket {
 
     @ManyToOne
     @JoinColumn(name="operatore_id", nullable=false)
+    @JsonBackReference
     private Utente operatore;
 
     @ManyToMany
     private List<Categoria> categorie;
 
     @OneToMany(mappedBy = "ticket")
-    @JsonBackReference
     private List<Nota> note;
 
     public Integer getId() {
