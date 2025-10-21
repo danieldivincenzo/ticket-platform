@@ -41,6 +41,16 @@
                 </div>
 
                 <div class="mb-3">
+                    <h5>Categorie</h5>
+                    <div class="form-check" th:each="categoria : ${listaCategorie}">
+                        <input class="form-check-input" type="checkbox" th:id="|categoria_${categoria.id}|"
+                            th:value="${categoria.id}" th:field="*{categorie}">
+                        <label class="form-check-label" th:for="|categoria_${categoria.id}|"
+                            th:text="${categoria.nome}"></label>
+                    </div>
+                </div>
+
+                <div class="mb-3">
                     <label for="stato" class="form-label">Stato</label>
                     <select class="form-select" id="stato" th:field="*{stato}">
                         <option value="Da fare">Da Fare</option>

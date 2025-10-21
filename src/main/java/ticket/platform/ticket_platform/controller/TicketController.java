@@ -22,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import jakarta.validation.Valid;
 import ticket.platform.ticket_platform.model.Ticket;
 import ticket.platform.ticket_platform.model.Utente;
+import ticket.platform.ticket_platform.repository.CategoriaRepository;
 import ticket.platform.ticket_platform.repository.TicketRepository;
 import ticket.platform.ticket_platform.repository.UtenteRepository;
 
@@ -35,9 +36,12 @@ public class TicketController {
     @Autowired
     private UtenteRepository utenteRepository;
 
+    @Autowired
+    private CategoriaRepository categoriaRepository;
+
     @GetMapping
     public String index(@RequestParam(name = "keyword", required = false) String keyword, Model model) {
-        List<Ticket> listaTickets;
+        List<Ticket> listaTickets = null;
         if(keyword != null && !keyword.isBlank()){
             listaTickets = ticketRepository.findByTitoloContainingIgnoreCase(keyword);
         } else {
@@ -56,6 +60,9 @@ public class TicketController {
 
         List<Utente> operatoriDisponibili = utenti.stream().filter(utente -> utente.getRuoli().stream().anyMatch(ruolo -> ruolo.getNome().equals("OPERATORE")) && utente.isDisponibile()).collect(Collectors.toList());
         model.addAttribute("listaOperatori", operatoriDisponibili);
+
+        model.addAttribute("listaCategorie", categoriaRepository.findAll());
+
         return "tickets/create";
     }
 
@@ -65,6 +72,9 @@ public class TicketController {
             List<Utente> utenti = utenteRepository.findAll();
             List<Utente> operatoriDisponibili = utenti.stream().filter(utente -> utente.getRuoli().stream().anyMatch(ruolo -> ruolo.getNome().equals("OPERATORE")) && utente.isDisponibile()).collect(Collectors.toList());
             model.addAttribute("listaOperatori", operatoriDisponibili);
+
+            model.addAttribute("listaCategorie", categoriaRepository.findAll());
+
             return "tickets/create";
 
         } else{
@@ -84,6 +94,9 @@ public class TicketController {
             Ticket ticket = optionalTicket.get();
 
             model.addAttribute("ticket", ticket);
+
+            model.addAttribute("listaCategorie", categoriaRepository.findAll());
+            
             return "tickets/show";
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Ticket con id " + id + " non trovato.");
@@ -102,6 +115,8 @@ public class TicketController {
             List<Utente> operatoriDisponibili = utenti.stream().filter(utente -> utente.getRuoli().stream().anyMatch(ruolo -> ruolo.getNome().equals("OPERATORE")) && utente.isDisponibile()).collect(Collectors.toList());
             model.addAttribute("listaOperatori", operatoriDisponibili);
 
+            model.addAttribute("listaCategorie", categoriaRepository.findAll());
+
             return "tickets/edit";
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Ticket con id " + id + " non trovato.");
@@ -114,6 +129,8 @@ public class TicketController {
             List<Utente> utenti = utenteRepository.findAll();
             List<Utente> operatoriDisponibili = utenti.stream().filter(utente -> utente.getRuoli().stream().anyMatch(ruolo -> ruolo.getNome().equals("OPERATORE")) && utente.isDisponibile()).collect(Collectors.toList());
             model.addAttribute("listaOperatori", operatoriDisponibili);
+
+            model.addAttribute("listaCategorie", categoriaRepository.findAll());
 
             return "tickets/edit";
             

@@ -3,6 +3,8 @@ package ticket.platform.ticket_platform.model;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -41,6 +43,7 @@ public class Ticket {
     private List<Categoria> categorie;
 
     @OneToMany(mappedBy = "ticket")
+    @JsonBackReference
     private List<Nota> note;
 
     public Integer getId() {

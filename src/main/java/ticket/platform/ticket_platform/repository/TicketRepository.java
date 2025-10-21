@@ -9,4 +9,8 @@ import ticket.platform.ticket_platform.model.Ticket;
 public interface TicketRepository extends JpaRepository<Ticket, Integer>{
 
     public List<Ticket> findByTitoloContainingIgnoreCase(String keyword);
+
+    public List<Ticket> findByStato(String stato);
+
+    public List<Ticket> findByCategorie_Nome(String nomeCategoria);
 }

@@ -28,6 +28,12 @@
                         <li class="list-group-item"><strong>Stato:</strong> <span th:text="*{stato}"></span></li>
                     </ul>
                 </div>
+                <div class="col-6">
+                    <h3>Categorie</h3>
+                    <ul>
+                        <li th:each="categoria : *{categorie}" th:text="${categoria.nome}"></li>
+                    </ul>
+                </div>
             </div>
 
             <a th:href="@{/admin/tickets/edit/{id}(id=${ticket.id})}" class="btn btn-warning mt-3">
@@ -57,7 +63,7 @@
 
                 <div th:unless="*{note.size > 0}" class="alert alert-secondary mt-3">Nessuna nota presente</div>
 
-                <form th:action="@{/note/admin/note/store/{ticketId}(ticketId=*{id})}" method="POST">
+                <form th:action="@{/note/admin/store/{ticketId}(ticketId=*{id})}" method="POST">
                     <div class="mb-3">
                         <textarea name="testo" id="testoNota" class="form-control" rows="3"
                             placeholder="Scrivi la tua nota..."></textarea>

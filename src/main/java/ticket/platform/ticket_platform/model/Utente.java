@@ -2,6 +2,8 @@ package ticket.platform.ticket_platform.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -43,9 +45,11 @@ public class Utente {
     private List<Ruolo> ruoli;
 
     @OneToMany(mappedBy = "operatore")
+    @JsonBackReference
     private List<Ticket> ticketsAssegnati;
 
     @OneToMany(mappedBy = "autore")
+    @JsonBackReference
     private List<Nota> noteCreate;
 
     public List<Ticket> getTicketsAssegnati() {
