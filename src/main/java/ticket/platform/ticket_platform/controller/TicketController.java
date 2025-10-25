@@ -20,15 +20,20 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.validation.Valid;
+import ticket.platform.ticket_platform.model.Nota;
 import ticket.platform.ticket_platform.model.Ticket;
 import ticket.platform.ticket_platform.model.Utente;
 import ticket.platform.ticket_platform.repository.CategoriaRepository;
+import ticket.platform.ticket_platform.repository.NotaRepository;
 import ticket.platform.ticket_platform.repository.TicketRepository;
 import ticket.platform.ticket_platform.repository.UtenteRepository;
 
 @Controller
 @RequestMapping("/admin/tickets")
 public class TicketController {
+
+    @Autowired
+    private NotaRepository notaRepository;
 
     @Autowired
     private TicketRepository ticketRepository;
@@ -148,6 +153,11 @@ public class TicketController {
 
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
+
+        for (Nota nota : ticketRepository.findById(id).get().getNote()) {
+            notaRepository.delete(nota);
+        }
+
         ticketRepository.deleteById(id);
         redirectAttributes.addFlashAttribute("successMessage", "Ticket eliminato con successo!");
         

@@ -13,6 +13,7 @@ import ticket.platform.ticket_platform.model.Ticket;
 import ticket.platform.ticket_platform.repository.TicketRepository;
 
 
+
 @RestController
 @CrossOrigin
 @RequestMapping("/api/tickets")
@@ -34,5 +35,35 @@ public class TicketRestController {
 
         return listaTickets;
     }
+
+
+
+
+
+    
+    
+    /* @GetMapping("{id}")
+    public Ticket getById(@PathVariable("id") Integer id) {
+        return ticketRepository.findById(id).get();
+    }
+
+    @PostMapping
+    public Ticket create(@RequestBody Ticket ticket) {
+        return ticketRepository.save(ticket);
+    }
+
+    @PutMapping("{id}")
+    public Ticket put(@PathVariable("id") Integer id, @RequestBody Ticket ticket) {
+        return ticketRepository.save(ticket);
+    }
+
+    @DeleteMapping("{id}")
+    public void delete(@PathVariable("id") Integer id) {
+        ticketRepository.deleteById(id);
+    } */
+    
+    
+    
+    
     
 }

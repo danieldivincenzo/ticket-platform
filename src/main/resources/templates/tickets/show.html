@@ -61,7 +61,7 @@
                     </div>
                 </div>
 
-                <div th:unless="*{note.size > 0}" class="alert alert-secondary mt-3">Nessuna nota presente</div>
+                <div th:unless="*{getNote.size() > 0}" class="alert alert-secondary mt-3">Nessuna nota presente</div>
 
                 <form th:action="@{/note/admin/store/{ticketId}(ticketId=*{id})}" method="POST">
                     <div class="mb-3">

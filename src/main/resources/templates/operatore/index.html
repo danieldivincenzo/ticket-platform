@@ -19,7 +19,7 @@
 
             <h1 class="my-3">Ticket assegnati</h1>
 
-            <table class="table table-light table-striped" th:if="${listaTickets.size()} > 0">
+            <table class="table table-light table-striped" th:if="${listaTickets.size() > 0}">
                 <thead>
                     <tr>
                         <th scope="col">Titolo</th>
@@ -46,7 +46,7 @@
                 </tbody>
             </table>
 
-            <div class="alert alert-info" th:unless="${listaTickets.size()} > 0">
+            <div class="alert alert-info" th:unless="${listaTickets.size() > 0}">
                 Nessun ticket assegnato al momento.
             </div>
 
